@@ -32,7 +32,7 @@ const realTimeCameraFeeds: CameraFeed[] = [
     name: "Main Entrance",
     location: "North Wing",
     status: "online",
-    streamUrl: "http://172.30.73.19:5051/video_feed/cam2",
+    streamUrl: "https://086a-202-71-156-66.ngrok-free.app/video_feed/cam2",
     detectedPersons: []
   },
   {
