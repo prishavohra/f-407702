@@ -1,4 +1,3 @@
-
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export const loginAdmin = async (credentials: { username: string; password: string }) => {
@@ -12,7 +11,6 @@ export const loginAdmin = async (credentials: { username: string; password: stri
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(credentials),
-      // Add timeout to prevent indefinite waiting
       signal: AbortSignal.timeout(10000)  // 10 second timeout
     });
     

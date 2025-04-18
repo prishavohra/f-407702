@@ -10,7 +10,6 @@ import LiveCameras from "./pages/LiveCameras";
 import Alerts from "./pages/Alerts";
 import MovementTracker from "./pages/MovementTracker";
 import KnownFaces from "./pages/KnownFaces";
-import Admin from "./pages/Admin";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
@@ -29,7 +28,6 @@ const App = () => (
             <Route path="alerts" element={<Alerts />} />
             <Route path="movement-tracker" element={<MovementTracker />} />
             <Route path="known-faces" element={<KnownFaces />} />
-            <Route path="admin" element={<Admin />} />
             <Route path="contact" element={<Contact />} />
           </Route>
           <Route path="*" element={<NotFound />} />

@@ -1,4 +1,3 @@
-
 import express from 'express';
 import cors from 'cors';
 import { MongoClient } from 'mongodb';
@@ -7,10 +6,7 @@ import bcrypt from 'bcryptjs';
 
 // Import routes
 import * as authRoutes from './routes/auth.js';
-import userRoutes from './routes/users.js';
 import statsRoutes from './routes/stats.js';
-import reportRoutes from './routes/reports.js';
-import settingsRoutes from './routes/settings.js';
 import knownFacesRoutes from './routes/knownFaces.js';
 
 // Initialize environment variables
@@ -28,7 +24,24 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Initialize database with required collections
+// Routes
+app.use('/api/auth', authRoutes.router);
+app.use('/api/stats', statsRoutes);
+app.use('/api/known-faces', knownFacesRoutes);
+
+// Start server
+app.listen(PORT, async () => {
+  console.log(`Server running on port ${PORT}`);
+  try {
+    const client = await initializeDatabase();
+    // Keep the connection open for the server lifetime
+    console.log('Database initialized successfully');
+  } catch (err) {
+    console.error('Failed to initialize database:', err);
+    // Continue running the server even if DB init fails
+  }
+});
+
 async function initializeDatabase() {
   let client;
   try {
@@ -74,24 +87,3 @@ async function initializeDatabase() {
     throw err;
   }
 }
-
-// Routes - Fix to use the correct auth routes object format
-app.use('/api/auth', authRoutes.router); // Use .router from the exported object
-app.use('/api/users', userRoutes);
-app.use('/api/stats', statsRoutes);
-app.use('/api/reports', reportRoutes);
-app.use('/api/settings', settingsRoutes);
-app.use('/api/known-faces', knownFacesRoutes);
-
-// Start server
-app.listen(PORT, async () => {
-  console.log(`Server running on port ${PORT}`);
-  try {
-    const client = await initializeDatabase();
-    // Keep the connection open for the server lifetime
-    console.log('Database initialized successfully');
-  } catch (err) {
-    console.error('Failed to initialize database:', err);
-    // Continue running the server even if DB init fails
-  }
-});

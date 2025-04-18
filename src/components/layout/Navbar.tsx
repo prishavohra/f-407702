@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -9,7 +8,6 @@ import {
   BellRing, 
   Map, 
   Database, 
-  Settings, 
   Mail, 
   Menu, 
   X
@@ -21,7 +19,6 @@ const navItems = [
   { path: '/alerts', label: 'Alerts', icon: BellRing },
   { path: '/movement-tracker', label: 'Movement Tracker', icon: Map },
   { path: '/known-faces', label: 'Known Faces DB', icon: Database },
-  { path: '/admin', label: 'Admin Panel', icon: Settings },
   { path: '/contact', label: 'Contact', icon: Mail },
 ];
 
