@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -226,7 +225,7 @@ export default function ContactForm() {
                 <div className="w-10 h-10 rounded-full bg-muted"></div>
                 <div>
                   <h4 className="font-medium">AI Research</h4>
-                  <p className="text-sm text-muted-foreground">Prisha Vohra</p>
+                  <p className="text-sm text-muted-foreground">Aneeka Jain</p>
                 </div>
               </div>
               
