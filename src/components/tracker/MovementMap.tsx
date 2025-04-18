@@ -54,7 +54,7 @@ export default function MovementMap() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/alerts");
+        const res = await axios.get("http://127.0.0.1:5000/api/alerts");
         setAllPaths(res.data);
       } catch (error) {
         console.error("Error fetching alert data:", error);
