@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -90,10 +89,10 @@ export default function ContactForm() {
                 <h3 className="font-medium">Email Support</h3>
                 <p className="text-sm text-muted-foreground mb-1">For general inquiries:</p>
                 <a 
-                  href="mailto:support@visionsentinel.example" 
+                  href="mailto:prisha.vohra.bteh2023@sitpune.edu.in" 
                   className="text-sentinel-accent hover:underline"
                 >
-                  support@visionsentinel.example
+                  prisha.vohra.bteh2023@sitpune.edu.in
                 </a>
               </div>
             </div>
@@ -143,7 +142,7 @@ export default function ContactForm() {
                 <div className="w-10 h-10 rounded-full bg-muted"></div>
                 <div>
                   <h4 className="font-medium">Lead Developer</h4>
-                  <p className="text-sm text-muted-foreground">Jane Smith</p>
+                  <p className="text-sm text-muted-foreground">Pulkit Shrivastava</p>
                 </div>
               </div>
               
@@ -151,7 +150,15 @@ export default function ContactForm() {
                 <div className="w-10 h-10 rounded-full bg-muted"></div>
                 <div>
                   <h4 className="font-medium">AI Research</h4>
-                  <p className="text-sm text-muted-foreground">John Doe</p>
+                  <p className="text-sm text-muted-foreground">Prisha Vohra</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-muted"></div>
+                <div>
+                  <h4 className="font-medium">AI Research</h4>
+                  <p className="text-sm text-muted-foreground">Janhavi Jayabal</p>
                 </div>
               </div>
               
@@ -159,7 +166,7 @@ export default function ContactForm() {
                 <div className="w-10 h-10 rounded-full bg-muted"></div>
                 <div>
                   <h4 className="font-medium">UI/UX Design</h4>
-                  <p className="text-sm text-muted-foreground">Alex Johnson</p>
+                  <p className="text-sm text-muted-foreground">Rithikaa Redde</p>
                 </div>
               </div>
             </div>
