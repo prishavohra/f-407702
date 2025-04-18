@@ -1,3 +1,5 @@
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,8 +19,52 @@ import {
   SendHorizontal, 
   User 
 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function ContactForm() {
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate form submission
+    setTimeout(() => {
+      // Send email to the address (in a real app, this would be done server-side)
+      console.log("Sending email to: prisha.vohra.bteh2023@sitpune.edu.in");
+      console.log("Form data:", formData);
+      
+      toast({
+        title: "Message sent!",
+        description: "We'll get back to you as soon as possible.",
+      });
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+      setIsSubmitting(false);
+    }, 1000);
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <Card>
@@ -29,13 +75,20 @@ export default function ContactForm() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium" htmlFor="name">Name</label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input id="name" className="pl-9" placeholder="Your name" />
+                  <Input 
+                    id="name" 
+                    className="pl-9" 
+                    placeholder="Your name" 
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
               </div>
               
@@ -43,14 +96,28 @@ export default function ContactForm() {
                 <label className="text-sm font-medium" htmlFor="email">Email</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input id="email" className="pl-9" placeholder="Your email" />
+                  <Input 
+                    id="email" 
+                    className="pl-9" 
+                    placeholder="Your email" 
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
               </div>
             </div>
             
             <div className="space-y-2">
               <label className="text-sm font-medium" htmlFor="subject">Subject</label>
-              <Input id="subject" placeholder="What is your inquiry about?" />
+              <Input 
+                id="subject" 
+                placeholder="What is your inquiry about?" 
+                value={formData.subject}
+                onChange={handleChange}
+                required
+              />
             </div>
             
             <div className="space-y-2">
@@ -59,13 +126,22 @@ export default function ContactForm() {
                 id="message" 
                 placeholder="Please describe your question or issue in detail..." 
                 rows={5}
+                value={formData.message}
+                onChange={handleChange}
+                required
               />
             </div>
             
             <div className="pt-2 flex justify-end">
-              <Button className="gap-2">
-                <SendHorizontal className="h-4 w-4" />
-                Send Message
+              <Button className="gap-2" type="submit" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  "Sending..."
+                ) : (
+                  <>
+                    <SendHorizontal className="h-4 w-4" />
+                    Send Message
+                  </>
+                )}
               </Button>
             </div>
           </form>
