@@ -1,83 +1,35 @@
-
+// src/components/database/FaceDatabase.tsx
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { fetchKnownFaces, deleteFace, updateFace } from "@/lib/apis";
-import { toast } from "sonner";
-
-// Import refactored components
-import FaceCard, { FaceRecord } from "./FaceCard";
-import FaceDetailsDialog from "./FaceDetailsDialog";
-import DatabaseHeader from "./DatabaseHeader";
-import EmptyState from "./EmptyState";
+import faces from "../../data/faces"; // Import the static faces data
 
 export default function FaceDatabase() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedFace, setSelectedFace] = useState<FaceRecord | null>(null);
-  
-  // Fetch known faces from the API
-  const { data: faces, isLoading, error } = useQuery({
-    queryKey: ['known-faces'],
-    queryFn: fetchKnownFaces
-  });
-  
-  // Filter faces based on search term
-  const filteredFaces = faces?.filter(face => {
-    return face.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      face.id?.toLowerCase().includes(searchTerm.toLowerCase());
-  }) || [];
-  
-  const handleDeleteFace = async (id: string) => {
-    try {
-      await deleteFace(id);
-      toast.success("Face deleted successfully");
-    } catch (error) {
-      toast.error("Failed to delete face");
-      console.error(error);
-    }
-  };
-  
+  // Directly use the static faces data
+  const [facesList] = useState(faces);
+
   return (
-    <div className="space-y-4">
-      <DatabaseHeader 
-        faceCount={faces?.length || 0} 
-        searchTerm={searchTerm} 
-        onSearchChange={setSearchTerm} 
-      />
-      
-      {isLoading ? (
-        <div className="flex justify-center items-center p-12">
-          <Loader2 className="h-8 w-8 animate-spin text-sentinel-accent" />
-          <span className="ml-2 text-lg">Loading faces...</span>
-        </div>
-      ) : error ? (
-        <Alert variant="destructive">
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>
-            Failed to load faces from the database. Please try again later.
-          </AlertDescription>
-        </Alert>
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4">Known Faces</h2>
+      {facesList.length === 0 ? (
+        <p>No faces found in database.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filteredFaces.map((face) => (
-            <FaceCard 
-              key={face.id} 
-              face={face} 
-              onViewDetails={() => setSelectedFace(face)}
-              onDeleteRecord={() => handleDeleteFace(face.id)}
-            />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {facesList.map((face, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl shadow-md p-4 hover:shadow-lg transition cursor-pointer"
+            >
+              <img
+                src={face.images[0]} // Use the first image as the thumbnail
+                alt={`${face.id}_thumbnail`}
+                className="w-full h-40 object-cover rounded-md mb-3"
+              />
+              <div className="text-sm font-semibold">{face.name || face.id}</div>
+              <div className="text-xs text-gray-600">Added: {new Date(face.dateAdded).toLocaleDateString()}</div>
+              <div className="text-xs text-gray-600">Last Seen: {new Date(face.lastSeen).toLocaleDateString()}</div>
+            </div>
           ))}
-          
-          {filteredFaces.length === 0 && <EmptyState />}
         </div>
       )}
-      
-      <FaceDetailsDialog 
-        face={selectedFace} 
-        open={!!selectedFace} 
-        onOpenChange={() => setSelectedFace(null)} 
-      />
     </div>
   );
 }
