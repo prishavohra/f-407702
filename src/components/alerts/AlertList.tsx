@@ -1,40 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
-type Alert = {
+type AlertData = {
   name: string;
-  camera: string;
+  camera_id: string;
   timestamp: string;
+  p_id: string;
 };
 
-const AlertList: React.FC = () => {
-  const [alerts, setAlerts] = useState<Alert[]>([]);
+export default function AlertList() {
+  const [alerts, setAlerts] = useState<AlertData[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/alerts")
-      .then((res) => res.json())
-      .then((data) => setAlerts(data.alerts))
-      .catch((err) => console.error("Error fetching alerts:", err));
+    const fetchAlerts = async () => {
+      try {
+        const response = await fetch(" http://127.0.0.1:5011/api/alerts");
+        const data = await response.json();
+        console.log("Fetched Alerts:", data);
+        setAlerts(data);
+      } catch (error) {
+        console.error("Error fetching alerts:", error);
+      }
+    };
+
+    fetchAlerts();
+
+    const interval = setInterval(fetchAlerts, 5000); // Optional: auto-refresh every 5s
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="grid gap-4 p-4 md:grid-cols-2 lg:grid-cols-3">
-      {alerts.map((alert, index) => (
-        <Card key={index} className="shadow-md border border-gray-200">
-          <CardContent className="p-4">
-            <h3 className="text-lg font-semibold">{alert.name}</h3>
-            <div className="mt-2">
-              <Badge variant="outline">Camera: {alert.camera}</Badge>
-            </div>
-            <p className="text-sm text-muted-foreground mt-2">
-              Detected at: {new Date(alert.timestamp).toLocaleString()}
-            </p>
-          </CardContent>
-        </Card>
-      ))}
+    <div className="space-y-4 text-white">
+      {alerts.length === 0 ? (
+        <p>No alerts available.</p>
+      ) : (
+        alerts.map((alert, index) => (
+          <Alert key={`${alert.p_id}-${index}`}>
+            <AlertTitle>{`Camera: ${alert.camera_id}`}</AlertTitle>
+            <AlertDescription>{`Time: ${new Date(alert.timestamp).toLocaleString()}`}</AlertDescription>
+            <AlertDescription>{`Name: ${alert.name}`}</AlertDescription>
+          </Alert>
+        ))
+      )}
     </div>
   );
-};
-
-export default AlertList;
+}
