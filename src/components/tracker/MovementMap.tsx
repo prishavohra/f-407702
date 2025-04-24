@@ -54,7 +54,7 @@ export default function MovementMap() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://127.0.0.1:5000/api/alerts");
+        const res = await axios.get("http://127.0.0.1:5000/api/movement");
         setAllPaths(res.data);
       } catch (error) {
         console.error("Error fetching alert data:", error);
@@ -213,13 +213,19 @@ export default function MovementMap() {
                       </div>
                       <div className="flex-1 pt-1 pb-2">
                         <div className="text-sm font-medium">{camera?.name}</div>
-                        <div className="text-xs text-muted-foreground flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          {new Date(node.timestamp).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                            second: "2-digit"
-                          })}
+                        <div className="text-xs text-muted-foreground flex flex-col gap-0.5">
+                          <div className="flex items-center gap-1">
+                            <Clock className="h-3 w-3" />
+                            {new Date(node.timestamp).toLocaleDateString()}{" "}
+                            {new Date(node.timestamp).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              second: "2-digit"
+                            })}
+                          </div>
+                          <div className="pl-4 text-xs text-foreground">
+                            Camera ID: {node.cameraId}
+                          </div>
                         </div>
                       </div>
                     </div>
