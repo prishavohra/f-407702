@@ -9,8 +9,12 @@ CORS(app)
 
 # Connect to MongoDB Atlas
 client = MongoClient("mongodb+srv://pulkitshrivastavabtech2023:eNlJhr8xRuuQYJDX@facialrecognitiondatabs.l70mvub.mongodb.net/?retryWrites=true&w=majority&appName=FacialRecognitionDatabse")
-db = client["facerecognition"]
-alerts_collection = db["alerts"]
+db = client["FaceRecognition"]
+alerts_collection = db["Alerts"]
+
+# Checking for successful connectivity:
+print("✅ Connected to MongoDB Atlas")
+
 
 @app.route('/api/movement', methods=['GET'])
 def get_movement():
@@ -20,7 +24,7 @@ def get_movement():
 
         for alert in alerts:
             p_id = alert.get("p_id")
-            path = alert.get("recognized_cameras", [])
+            path = alert.get("path", [])
 
             formatted_path = []
             for camera in path:
@@ -32,7 +36,7 @@ def get_movement():
             # Sort by timestamp
             try:
                 formatted_path.sort(
-                    key=lambda x: datetime.strptime(x["timestamp"], "%Y-%m-%dT%H:%M:%S.%fZ")
+                    key=lambda x: datetime.strptime(x["timestamp"], "%Y-%m-%dT%H:%M:%S.%f")
                 )
             except Exception as e:
                 print(f"Timestamp parsing error: {e}")
