@@ -37,9 +37,9 @@ type MovementPath = {
 };
 
 const mockCameras: CameraNode[] = [
-  { id: "cam-001", name: "cam1", x: 100, y: 200, active: true },
-  { id: "cam-002", name: "cam2", x: 250, y: 200, active: true },
-  { id: "cam-003", name: "cam3", x: 50, y: 350, active: true },
+  { id: "cam1", name: "Cam 1", x: 100, y: 200, active: true },
+  { id: "cam2", name: "Cam 2", x: 250, y: 200, active: true },
+  { id: "cam3", name: "Cam 3", x: 50, y: 350, active: true },
 ];
 
 export default function MovementMap() {
@@ -93,20 +93,22 @@ export default function MovementMap() {
             <div className="absolute inset-0 p-4">
               <div className="w-full h-full bg-[url('data:image/svg+xml;base64,PHN...')]"></div>
             </div>
-            {mockCameras.map((camera) => (
+            {mockCameras.map((camera, index) => (
               <div
                 key={camera.id}
                 className={`absolute w-8 h-8 rounded-full flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 ${
                   camera.active ? "bg-sentinel-accent sensor-active" : "bg-muted sensor-inactive"
-                }`}
+                } shadow-lg`}
                 style={{ left: camera.x, top: camera.y }}
                 title={camera.name}
               >
-                <span className="text-xs font-semibold text-white">
-                  {camera.id.split('-')[1]}
-                </span>
+                <span className="text-sm font-bold text-white"></span>
+                <div className="mt-3 text-sm text-gray-300 font-medium whitespace-nowrap">
+                  Cam {index + 1}
+                </div>
               </div>
             ))}
+            
             {selectedPath && (
               <svg className="absolute inset-0 w-full h-full pointer-events-none">
                 <defs>
